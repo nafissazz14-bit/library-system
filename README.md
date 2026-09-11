@@ -23,4 +23,4 @@ Simple Library Information System
 
 ## Author
 
-Nama Kamu - NIM Kamu
+Nafisa Zachra - 2410631250105
