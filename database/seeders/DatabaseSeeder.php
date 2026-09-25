@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Tambahkan baris ini agar BookSeeder ikut dijalankan!
+        $this->call(BookSeeder::class);
     }
 }
