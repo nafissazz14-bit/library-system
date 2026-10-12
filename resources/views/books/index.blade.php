@@ -1,33 +1,25 @@
 @extends('layouts.app')
 
-@section('title', $title)
+@section('title', 'Daftar Buku')
 
 @section('content')
+    <a href="{{ route('books.create') }}">Tambah Buku</a>
 
-<h2>Daftar Buku</h2>
-<p>{{ $description }}</p>
-
-<table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Judul Buku</th>
-            <th>Penulis</th>
-            <th>Tahun Terbit</th>
-            <th>Stock</th> <!-- Pastikan tag </th> ada di setiap header -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($books as $index => $book)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ data_get($book, 'title') ?? data_get($book, 'judul') }}</td>
-                <td>{{ data_get($book, 'author') ?? data_get($book, 'penulis') }}</td>
-                <td>{{ data_get($book, 'year') ?? data_get($book, 'tahun_terbit') }}</td>
-                <td>{{ data_get($book, 'stock') ?? data_get($book, 'stok') }}</td> 
-            </tr>
+    <ul>
+        @foreach($books as $book)
+            <li>
+                <h3>{{ $book->title }}</h3>
+                <p>Penulis: {{ $book->author }}</p>
+                <p>Tahun: {{ $book->year }}</p>
+                <p>Stok: {{ $book->stock }}</p>
+                <a href="{{ route('books.show', $book) }}">Detail</a>
+                <a href="{{ route('books.edit', $book) }}">Edit buku</a>
+                <form action="{{ route('books.destroy', $book) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                </form>
+            </li>
         @endforeach
-    </tbody>
-</table>
-
+    </ul>
 @endsection
