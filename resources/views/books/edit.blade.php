@@ -1,6 +1,6 @@
-@extends(layouts.app')
+@extends('layouts.app')
 
-@section('title', 'title')
+@section('title', 'Edit Buku')
 
 @section('content')
     <form action="{{ route('books.update', $book) }}" method="POST">
@@ -11,6 +11,7 @@
         <input type="text" name="author" placeholder="Penulis" value="{{ $book->author }}">
         <input type="number" name="year" placeholder="Tahun Terbit" value="{{ $book->year }}">
         <input type="number" name="stock" placeholder="Stok" value="{{ $book->stock }}">
+        <input type="number" name="price" placeholder="Harga" value="{{ $book->price }}">
 
         <button type="submit">
             update

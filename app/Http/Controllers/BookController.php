@@ -21,7 +21,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('books.create');
+        $title = "Tambah Buku";
+        return view('books.create', compact('title'));
     }
 
     /**
@@ -29,15 +30,22 @@ class BookController extends Controller
      */
     public function store(Request $request)
 {
-    Book::create([
-        'title' => $request->title,
-        'author' => $request->author,
-        'year' => $request->year,
-        'stock' => $request->stock,
+        $validated = $request->validate
+    ([
+        'title' => 'required|string|max:255',
+        'author' => 'required|string|max:255',
+        'year' => 'required|integer|min:1900',
+        'stock' => 'required|integer|min:0',
+        'price' => 'required|numeric|min:0',
+        
     ]);
 
-    return redirect()->route('books.index');
-}
+    Book::create($validated);
+        
+    return redirect()
+        ->route('books.index')
+        ->with('success', 'Data buku berhasil ditambahkan.');
+    }
 
     /**
      * Display the specified resource.
@@ -45,7 +53,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $title = "detail buku";
-        return view('books.show', compact('book'));
+        return view('books.show', compact('title', 'book'));
     }
 
     public function edit(Book $book)
@@ -64,6 +72,7 @@ class BookController extends Controller
             'author' => $request->author,
             'year' => $request->year,
             'stock' => $request->stock,
+            'price' => $request->price,
         ]);
 
         return redirect()->route('books.index');

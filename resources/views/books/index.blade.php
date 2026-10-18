@@ -3,23 +3,30 @@
 @section('title', 'Daftar Buku')
 
 @section('content')
+    @if (session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+
     <a href="{{ route('books.create') }}">Tambah Buku</a>
 
     <ul>
-        @foreach($books as $book)
-            <li>
-                <h3>{{ $book->title }}</h3>
-                <p>Penulis: {{ $book->author }}</p>
-                <p>Tahun: {{ $book->year }}</p>
-                <p>Stok: {{ $book->stock }}</p>
-                <a href="{{ route('books.show', $book) }}">Detail</a>
-                <a href="{{ route('books.edit', $book) }}">Edit buku</a>
-                <form action="{{ route('books.destroy', $book) }}" method="POST" style="display: inline-block;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                </form>
-            </li>
+        @foreach ($books as $book)
+            <h3>{{ $book->title }}</h3>
+            <a href="{{ route('books.show', $book) }}">Detail Buku</a>
+            <a href="{{ route('books.edit', $book) }}">Edit Buku</a>
+
+            <form
+                action="{{ route('books.destroy', $book) }}"
+                method="POST"
+                onsubmit='return confirm("Yakin ingin menghapus buku \"{{ $book->title }}\" ini?")'
+            >
+                @csrf
+                @method('DELETE')
+
+                <button type="submit">
+                    Hapus
+                </button>
+            </form>
         @endforeach
     </ul>
 @endsection

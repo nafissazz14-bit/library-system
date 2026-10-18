@@ -11,5 +11,6 @@ class Book extends Model
         'author',
         'year',
         'stock',
+        'price',
     ];
 }

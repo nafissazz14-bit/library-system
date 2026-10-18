@@ -18,6 +18,7 @@ return new class extends Migration
             $table->year('year');
             $table->integer('stock');
             $table->timestamps();
+            $table->decimal('price', 8, 2); // Menambahkan kolom harga
         });
     }
 
