@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Tambahkan baris ini agar BookSeeder ikut dijalankan!
-        $this->call(BookSeeder::class);
+        $this->call([
+            CategorySeeder::class,
+            BookSeeder::class,
+        ]);
     }
 }

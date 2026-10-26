@@ -11,7 +11,7 @@
 
     <ul>
         @foreach ($books as $book)
-            <h3>{{ $book->title }}</h3>
+            <h3>{{ $book->title }} <small>({{ $book->category?->name ?? 'Belum' }})</small></h3>
             <a href="{{ route('books.show', $book) }}">Detail Buku</a>
             <a href="{{ route('books.edit', $book) }}">Edit Buku</a>
 

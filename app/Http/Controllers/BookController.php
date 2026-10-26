@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Category;
 
 class BookController extends Controller
 {
@@ -12,8 +13,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-        return view('books.index', compact('books'));
+
+    $books = Book::with('category')->get();
+
+    return view('books.index', compact('books'));
     }
 
     /**
@@ -22,29 +25,30 @@ class BookController extends Controller
     public function create()
     {
         $title = "Tambah Buku";
-        return view('books.create', compact('title'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('books.create', compact ('title', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-        $validated = $request->validate
-    ([
-        'title' => 'required|string|max:255',
-        'author' => 'required|string|max:255',
-        'year' => 'required|integer|min:1900',
-        'stock' => 'required|integer|min:0',
-        'price' => 'required|numeric|min:0',
-        
-    ]);
+    {
+        $validated = $request->validate([
+            'title'  => 'required|string|min:4|max:255',
+            'author' => 'required|string|min:4|max:255',
+            'year'   => 'required|integer|min:1900|digits:4|max:' . date('Y'),
+            'stock'  => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-    Book::create($validated);
-        
-    return redirect()
+        Book::create($validated);
+
+        return redirect()
         ->route('books.index')
-        ->with('success', 'Data buku berhasil ditambahkan.');
+        ->with('success','Data buku berhasil ditambahkan.');
+
     }
 
     /**
@@ -52,14 +56,20 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        $title = "detail buku";
-        return view('books.show', compact('title', 'book'));
+        $title = "Detail Buku";
+
+        return view ('books.show', compact('title', 'book'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Book $book)
     {
         $title = "Edit Buku";
-        return view('books.edit', compact('title','book', ));
+        $categories = Category::orderBy('name')->get();
+
+        return view ('books.edit', compact('title', 'book', 'categories'));
     }
 
     /**
@@ -67,15 +77,18 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $book->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'year' => $request->year,
-            'stock' => $request->stock,
-            'price' => $request->price,
-        ]);
+        $validated = $request->validate([
+        'title'  => 'required|string|min:4|max:255',
+        'author' => 'required|string|min:4|max:255',
+        'year'   => 'required|integer|min:1900|digits:4|max:' . date('Y'),
+        'stock'  => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+    ]);
+    $book->update($validated);
 
-        return redirect()->route('books.index');
+    return redirect()
+        ->route('books.index')
+        ->with('success', 'Data buku berhasil diperbarui.');
     }
 
     /**
@@ -84,6 +97,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
         return redirect()->route('books.index');
     }
 }

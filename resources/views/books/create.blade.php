@@ -15,7 +15,7 @@
             @enderror
         </div>
         <div>
-            <label>Penulis</label>p   
+            <label>Penulis</label>
             <input type="text" name="author" placeholder="Penulis" value="{{ old('author') }}">
 
             @error('author')
@@ -32,24 +32,34 @@
             @enderror
         </div>
         <div>
-            <label>Jumlah Stock Buku</label>
+            <label>Jumlah Stok Buku</label>
             <input type="number" name="stock" placeholder="Stok" value="{{ old('stock') }}">
 
             @error('stock')
                 <p>{{ $message }}</p>
             @enderror
         </div>
-
         <div>
-            <label>Harga Buku</label>
-            <input type="number" name="price" placeholder="Harga" value="{{ old('price') }}">
+        <label for="category_id">Kategori</label>
+        <select name="category_id" id="category_id">
+            <option value="">Pilih kategori</option>
 
-            @error('price')
-                <p>{{ $message }}</p>
-            @enderror
+           @foreach ($categories as $category)
+                <option
+                value="{{ $category->id }}"
+                @selected(old('category_id') == $category->id)
+                >
+                {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
 
+        @error('category_id')
+            <p>{{ $message }}</p>
+        @enderror
 
-        <button type="submit">
+    </div>
+            <button type="submit">
             Simpan
         </button>
     </form>

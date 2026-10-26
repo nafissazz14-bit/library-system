@@ -18,35 +18,35 @@ class BookSeeder extends Seeder
             'author' => 'Budi Santoso',
             'year' => 2021,
             'stock' => 17,
-            'price' => 75000,
+            'category_id' => 1, // Sesuaikan dengan ID kategori yang ada di tabel categories
         ]);
         Book::create([
             'title' => 'Panduan Master Web Development',
             'author' => 'Siti Aminah',
             'year' => 2022,
             'stock' => 5,
-            'price' => 95000,
+            'category_id' => 1,
         ]);
         Book::create([
             'title' => 'Tutorial Menjadi Orang Sukses',
             'author' => 'Andi Pratama',
             'year' => 2019,
             'stock' => 8,
-            'price' => 60000,
+            'category_id' => 2,
         ]);
         Book::create([
             'title' => 'Panduan Hidup Sehat & Berkah',
             'author' => 'Rahmat Hidayat',
             'year' => 2020,
             'stock' => 12,
-            'price' => 50000,
+            'category_id' => 2,
         ]);
         Book::create([
             'title' => 'Strategi Manajemen Keuangan',
             'author' => 'Dewi Lestari',
             'year' => 2023,
             'stock' => 6,
-            'price' => 80000,
+            'category_id' => 3,
         ]);
     }
 }
