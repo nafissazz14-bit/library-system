@@ -15,6 +15,10 @@
     <a href="{{ route('books.index') }}">Buku</a> |
     <a href="{{ route('members.index') }}">Member</a> |
     <a href="{{ route('categories.index') }}">Kategori</a>
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
    </nav>
 
     <main>
